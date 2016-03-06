@@ -8,8 +8,13 @@ string GetGuessAndPrintBack();
 
 int main() 
 {
+	constexpr int NUMBER_OF_TURNS = 5;
 	PrintIntro();
-	GetGuessAndPrintBack();
+
+	for (int i = 0; i < NUMBER_OF_TURNS; ++i)
+	{
+		GetGuessAndPrintBack();
+	}
 
 	return 0;
 }
