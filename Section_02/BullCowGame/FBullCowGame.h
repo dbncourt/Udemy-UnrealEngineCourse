@@ -1,5 +1,8 @@
 #pragma once
-#include<iostream>
+#include<string>
+
+using FString = std::string;
+using int32 = int;
 
 class FBullCowGame
 {
@@ -8,13 +11,13 @@ public:
 	~FBullCowGame();
 
 	void Reset();
-	int GetMaxTries() const;
-	int GetCurrentTry() const;
+	int32 GetMaxTries() const;
+	int32 GetCurrentTry() const;
 	bool IsGameWon() const;
-	bool CheckGuessValidity(std::string);
+	bool CheckGuessValidity(FString);
 
 private:
-	int MyCurrentTry;
-	int MyMaxTries;
+	int32 MyCurrentTry;
+	int32 MyMaxTries;
 
 };
