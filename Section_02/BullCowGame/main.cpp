@@ -6,14 +6,15 @@ using namespace std;
 
 void PrintIntro();
 void PlayGame(const int &NUMBER_OF_TURNS);
+bool AskToPlayAgain();
 string GetGuess();
 
-int main() 
+int main()
 {
 	constexpr int NUMBER_OF_TURNS = 5;
 	PrintIntro();
 	PlayGame(NUMBER_OF_TURNS);
-
+	AskToPlayAgain();
 	return 0;
 }
 
@@ -21,7 +22,8 @@ void PlayGame(const int &numberOfTurns)
 {
 	for (int i = 0; i < numberOfTurns; ++i)
 	{
-		Print(GetGuess());
+		string Guess = GetGuess();
+		cout << "Your guess was " << Guess << endl;
 	}
 }
 
@@ -32,17 +34,21 @@ void PrintIntro()
 	cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?\n";
 }
 
-string GetGuess() 
+string GetGuess()
 {
 	string Guess = "";
 
 	cout << "Enter your guess: ";
 	getline(cin, Guess);
-	
+
 	return Guess;
 }
 
-void Print(string toPrint) 
+bool AskToPlayAgain()
 {
-	cout << "Your guess was " << toPrint << endl;
+	cout << "Do you want to play again?: ";
+	string Response = "";
+	getline(cin, Response);
+
+	return Response[0] == 'Y' || Response[0] == 'y';
 }
