@@ -8,9 +8,9 @@ public:
 	~FBullCowGame();
 
 	void Reset();
-	int GetMaxTries();
-	int GetCurrentTry();
-	bool IsGameWon();
+	int GetMaxTries() const;
+	int GetCurrentTry() const;
+	bool IsGameWon() const;
 	bool CheckGuessValidity(std::string);
 
 private:
