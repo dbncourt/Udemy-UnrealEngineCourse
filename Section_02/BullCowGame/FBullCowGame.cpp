@@ -11,6 +11,7 @@ FBullCowGame::~FBullCowGame()
 
 void FBullCowGame::Reset()
 {
+	this->MyHiddenWord = "planet";
 	this->MyMaxTries = 8;
 	this->MyCurrentTry = 0;
 }
@@ -33,4 +34,13 @@ bool FBullCowGame::IsGameWon() const
 bool FBullCowGame::CheckGuessValidity(FString)
 {
 	return false;
+}
+
+BullCowCount FBullCowGame::SubmitGuess(FString)
+{
+	++this->MyCurrentTry;
+
+	BullCowCount Response;
+
+	return Response;
 }
