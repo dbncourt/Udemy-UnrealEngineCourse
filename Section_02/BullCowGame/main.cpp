@@ -1,13 +1,10 @@
 #include<iostream>
 #include<string>
 
-
-using namespace std;
-
 void PrintIntro();
 void PlayGame(const int &NUMBER_OF_TURNS);
 bool AskToPlayAgain();
-string GetGuess();
+std::string GetGuess();
 
 int main()
 {
@@ -27,33 +24,33 @@ void PlayGame(const int &numberOfTurns)
 {
 	for (int i = 0; i < numberOfTurns; ++i)
 	{
-		string Guess = GetGuess();
-		cout << "Your guess was " << Guess << endl;
+		std::string Guess = GetGuess();
+		std::cout << "Your guess was " << Guess << std::endl;
 	}
 }
 
 void PrintIntro()
 {
 	constexpr int WORD_LENGTH = 5;
-	cout << "Welcome to Bulls and Cows\n";
-	cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?\n";
+	std::cout << "Welcome to Bulls and Cows\n";
+	std::cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?\n";
 }
 
-string GetGuess()
+std::string GetGuess()
 {
-	string Guess = "";
+	std::string Guess = "";
 
-	cout << "Enter your guess: ";
-	getline(cin, Guess);
+	std::cout << "Enter your guess: ";
+	getline(std::cin, Guess);
 
 	return Guess;
 }
 
 bool AskToPlayAgain()
 {
-	cout << "Do you want to play again?: ";
-	string Response = "";
-	getline(cin, Response);
+	std::cout << "Do you want to play again?: ";
+	std::string Response = "";
+	getline(std::cin, Response);
 
 	return Response[0] == 'Y' || Response[0] == 'y';
 }
