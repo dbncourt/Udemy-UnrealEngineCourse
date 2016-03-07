@@ -11,19 +11,19 @@ FBullCowGame::~FBullCowGame()
 
 void FBullCowGame::Reset()
 {
-	this->MyHiddenWord = "planet";
-	this->MyMaxTries = 8;
-	this->MyCurrentTry = 0;
+	this->HiddenWord = "ant";
+	this->MaxTries = 8;
+	this->CurrentTry = 0;
 }
 
 int32 FBullCowGame::GetMaxTries() const
 {
-	return MyMaxTries;
+	return MaxTries;
 }
 
 int32 FBullCowGame::GetCurrentTry() const
 {
-	return MyCurrentTry;
+	return CurrentTry;
 }
 
 bool FBullCowGame::IsGameWon() const
@@ -36,11 +36,29 @@ bool FBullCowGame::CheckGuessValidity(FString)
 	return false;
 }
 
-BullCowCount FBullCowGame::SubmitGuess(FString)
+FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 {
-	++this->MyCurrentTry;
+	++this->CurrentTry;
 
-	BullCowCount Response;
+	FBullCowCount Response;
+
+	for (int32 i = 0; i < Guess.length(); ++i)
+	{
+		for (int32 j = 0; j < this->HiddenWord.length(); ++j)
+		{
+			if (Guess[i] == this->HiddenWord[j])
+			{
+				if (i == j)
+				{
+					++Response.Bulls;
+				}
+				else
+				{
+					++Response.Cows;
+				}
+			}
+		}
+	}
 
 	return Response;
 }
