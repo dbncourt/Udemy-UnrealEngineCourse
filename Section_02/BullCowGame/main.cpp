@@ -1,28 +1,30 @@
 #include<iostream>
 #include<string>
+#include "FBullCowGame.h"
 
 void PrintIntro();
-void PlayGame(const int &NUMBER_OF_TURNS);
+void PlayGame();
 bool AskToPlayAgain();
 std::string GetGuess();
 
 int main()
 {
-	constexpr int NUMBER_OF_TURNS = 5;
-
 	do
 	{
 		system("cls");
 		PrintIntro();
-		PlayGame(NUMBER_OF_TURNS);
+		PlayGame();
 	} while (AskToPlayAgain());
 	
 	return 0;
 }
 
-void PlayGame(const int &numberOfTurns)
+void PlayGame()
 {
-	for (int i = 0; i < numberOfTurns; ++i)
+	FBullCowGame BCGame = FBullCowGame();
+	constexpr int NUMBER_OF_TURNS = 5;
+
+	for (int i = 0; i < NUMBER_OF_TURNS; ++i)
 	{
 		std::string Guess = GetGuess();
 		std::cout << "Your guess was " << Guess << std::endl;
