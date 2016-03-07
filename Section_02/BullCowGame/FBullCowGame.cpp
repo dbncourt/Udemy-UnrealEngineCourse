@@ -2,6 +2,7 @@
 
 FBullCowGame::FBullCowGame()
 {
+	FBullCowGame::Reset();
 }
 
 FBullCowGame::~FBullCowGame()
@@ -10,16 +11,18 @@ FBullCowGame::~FBullCowGame()
 
 void FBullCowGame::Reset()
 {
+	this->MyMaxTries = 1;
+	this->MyCurrentTry = 0;
 }
 
 int FBullCowGame::GetMaxTries()
 {
-	return 0;
+	return MyMaxTries;
 }
 
 int FBullCowGame::GetCurrentTry()
 {
-	return 0;
+	return MyCurrentTry;
 }
 
 bool FBullCowGame::IsGameWon()
