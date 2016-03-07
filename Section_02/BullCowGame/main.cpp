@@ -12,9 +12,14 @@ string GetGuess();
 int main()
 {
 	constexpr int NUMBER_OF_TURNS = 5;
-	PrintIntro();
-	PlayGame(NUMBER_OF_TURNS);
-	AskToPlayAgain();
+
+	do
+	{
+		system("cls");
+		PrintIntro();
+		PlayGame(NUMBER_OF_TURNS);
+	} while (AskToPlayAgain());
+	
 	return 0;
 }
 
