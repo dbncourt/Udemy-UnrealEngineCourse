@@ -31,9 +31,29 @@ bool FBullCowGame::IsGameWon() const
 	return false;
 }
 
-bool FBullCowGame::CheckGuessValidity(FString)
+EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	return false;
+	if (false)
+	{
+		return EGuessStatus::Not_Isogram;
+	}
+	else if (false)
+	{
+		return EGuessStatus::Not_Lowercase;
+	}
+	else if (Guess.length() < FBullCowGame::GetHiddenWordLength())
+	{
+		return EGuessStatus::Wrong_Length;
+	}
+	else
+	{
+		return EGuessStatus::OK;
+	}
+}
+
+int32 FBullCowGame::GetHiddenWordLength() const
+{
+	return static_cast<int32>(this->HiddenWord.length());
 }
 
 FBullCowCount FBullCowGame::SubmitGuess(FString Guess)

@@ -29,18 +29,15 @@ void PlayGame()
 	for (int32 i = 0; i < BCGame.GetMaxTries(); ++i)
 	{
 		FTEXT Guess = GetGuess();
-
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
-
 		std::cout << "Bulls = " << BullCowCount.Bulls << ". Cows = " << BullCowCount.Cows << std::endl;
 	}
 }
 
 void PrintIntro()
 {
-	constexpr int32 WORD_LENGTH = 5;
 	std::cout << "Welcome to Bulls and Cows\n";
-	std::cout << "Can you guess the " << WORD_LENGTH << " letter isogram I'm thinking of?\n";
+	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm thinking of?\n";
 }
 
 FTEXT GetGuess()
