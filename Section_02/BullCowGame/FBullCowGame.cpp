@@ -11,9 +11,10 @@ FBullCowGame::~FBullCowGame()
 
 void FBullCowGame::Reset()
 {
-	this->HiddenWord = "ant";
+	this->HiddenWord = "planet";
 	this->MaxTries = 8;
 	this->CurrentTry = 0;
+	this->bGameIsWon = false;
 }
 
 int32 FBullCowGame::GetMaxTries() const
@@ -28,7 +29,7 @@ int32 FBullCowGame::GetCurrentTry() const
 
 bool FBullCowGame::IsGameWon() const
 {
-	return false;
+	return this->bGameIsWon;
 }
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
@@ -80,5 +81,9 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 		}
 	}
 
+	if (Response.Bulls == this->HiddenWord.length())
+	{
+		this->bGameIsWon = true;
+	}
 	return Response;
 }

@@ -26,7 +26,7 @@ int32 main()
 
 void PlayGame()
 {
-	for (int32 i = 0; i < BCGame.GetMaxTries(); ++i)
+	while (!BCGame.IsGameWon() && BCGame.GetMaxTries() > BCGame.GetCurrentTry())
 	{
 		FTEXT Guess = GetValidGuess();
 
