@@ -25,7 +25,7 @@ public:
 	~FBullCowGame();
 
 	void Reset();
-	int32 GetMaxTries(out &int) const;
+	int32 GetMaxTries() const;
 	int32 GetCurrentTry() const;
 	bool IsGameWon() const;
 	EGuessStatus CheckGuessValidity(FString) const;
