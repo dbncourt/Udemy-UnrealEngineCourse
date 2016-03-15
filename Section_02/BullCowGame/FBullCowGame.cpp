@@ -12,14 +12,14 @@ FBullCowGame::~FBullCowGame()
 void FBullCowGame::Reset()
 {
 	this->HiddenWord = "planet";
-	this->MaxTries = 8;
 	this->CurrentTry = 0;
 	this->bGameIsWon = false;
 }
 
 int32 FBullCowGame::GetMaxTries() const
 {
-	return MaxTries;
+	TMap<int32, int32> WordLengthToMaxTries{ {3, 5}, {4, 5}, {5, 5}, {6, 5} };
+	return WordLengthToMaxTries[HiddenWord.length()];
 }
 
 int32 FBullCowGame::GetCurrentTry() const
@@ -34,17 +34,17 @@ bool FBullCowGame::IsGameWon() const
 
 EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	if (false)
+	if (Guess.length() != FBullCowGame::GetHiddenWordLength())
 	{
-		return EGuessStatus::Not_Isogram;
+		return EGuessStatus::Wrong_Length;
 	}
-	else if (false)
+	else if (!IsLoweCase(Guess))
 	{
 		return EGuessStatus::Not_Lowercase;
 	}
-	else if (Guess.length() < FBullCowGame::GetHiddenWordLength())
+	else if (!IsIsogram(Guess))
 	{
-		return EGuessStatus::Wrong_Length;
+		return EGuessStatus::Not_Isogram;
 	}
 	else
 	{
@@ -86,4 +86,38 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 		this->bGameIsWon = true;
 	}
 	return Response;
+}
+
+bool FBullCowGame::IsIsogram(FString Word) const
+{
+	if (Word.length() < 2) { return true; }
+	TMap<char, bool> LettersSeen;
+
+	for (char Letter : Word)
+	{
+		Letter = tolower(Letter);
+		if (LettersSeen[Letter])
+		{
+			return false;
+		}
+		LettersSeen[tolower(Letter)] = true;
+	}
+	return true;
+}
+
+bool FBullCowGame::IsLoweCase(FString Word) const
+{
+	for (auto Letter : Word)
+	{
+		if (!islower(Letter))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void myFunction(std::string c)
+{
+
 }

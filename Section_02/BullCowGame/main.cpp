@@ -10,6 +10,7 @@ void PrintIntro();
 void PlayGame();
 bool AskToPlayAgain();
 FTEXT GetValidGuess();
+void PrintGameSummary();
 
 int32 main()
 {
@@ -33,6 +34,7 @@ void PlayGame()
 		FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
 		std::cout << "Bulls = " << BullCowCount.Bulls << ". Cows = " << BullCowCount.Cows << std::endl;
 	}
+	PrintGameSummary();
 }
 
 void PrintIntro()
@@ -47,24 +49,24 @@ FTEXT GetValidGuess()
 	{
 		FTEXT Guess = "";
 
-		std::cout << "Try " << BCGame.GetCurrentTry() + 1 << ". Enter your guess: ";
+		std::cout << "\nTry " << BCGame.GetCurrentTry() + 1 << "/" << BCGame.GetMaxTries() << ". Enter your guess: ";
 		getline(std::cin, Guess);
 		EGuessStatus Status = BCGame.CheckGuessValidity(Guess);
 		switch (Status)
 		{
 			case EGuessStatus::Wrong_Length:
 				{
-					std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+					std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n\n";
 					break;
 				}
 			case EGuessStatus::Not_Isogram:
 				{
-					std::cout << "Please enter a word without repeating letters.\n";
+					std::cout << "Please enter a word without repeating letters.\n\n";
 					break;
 				}
 			case EGuessStatus::Not_Lowercase:
 				{
-					std::cout << "Please enter a all lowercase letters.\n";
+					std::cout << "Please enter a all lowercase letters.\n\n";
 					break;
 				}
 			case EGuessStatus::OK:
@@ -76,9 +78,21 @@ FTEXT GetValidGuess()
 
 }
 
+void PrintGameSummary()
+{
+	if (BCGame.IsGameWon())
+	{
+		std::cout << "\nWELL DONE - YOU WIN!.";
+	}
+	else
+	{
+		std::cout << "\nBetter luck next time!";
+	}
+}
+
 bool AskToPlayAgain()
 {
-	std::cout << "Do you want to play again?: ";
+	std::cout << "\nDo you want to play again?: ";
 	FTEXT Response = "";
 	getline(std::cin, Response);
 
