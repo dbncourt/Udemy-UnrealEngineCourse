@@ -11,8 +11,6 @@ UPositionReporter::UPositionReporter()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -20,8 +18,9 @@ UPositionReporter::UPositionReporter()
 void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
+	
 
-	// ...
+	UE_LOG(LogTemp, Warning, TEXT("Owners Name is %s (%f, %f, %f)"), *GetOwner()->GetName(), GetOwner()->GetTransform().GetTranslation().X, GetOwner()->GetTransform().GetTranslation().Y, GetOwner()->GetTransform().GetTranslation().Z);
 	
 }
 
