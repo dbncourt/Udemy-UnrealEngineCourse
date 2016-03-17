@@ -280,3 +280,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.opendb
+BuildingEscape_03/BuildingEscape/Intermediate/*
+BuildingEscape_03/BuildingEscape/Saved/*
+BuildingEscape_03/BuildingEscape/Build/*
+BuildingEscape_03/BuildingEscape/Binaries/*
+BuildingEscape_03/BuildingEscape/Content/StarterContent/*
