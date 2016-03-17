@@ -280,5 +280,3 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.opendb
-Unreal Projects/HelloWorld/Content/*
-Unreal Projects/HelloWorld/Intermediate/*
