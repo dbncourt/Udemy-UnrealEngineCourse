@@ -20,7 +20,7 @@ void UPositionReporter::BeginPlay()
 	Super::BeginPlay();
 	
 
-	UE_LOG(LogTemp, Warning, TEXT("Owners Name is %s (%f, %f, %f)"), *GetOwner()->GetName(), GetOwner()->GetTransform().GetTranslation().X, GetOwner()->GetTransform().GetTranslation().Y, GetOwner()->GetTransform().GetTranslation().Z);
+	UE_LOG(LogTemp, Warning, TEXT("Owners Name is %s (%s)"), *GetOwner()->GetName(), *GetOwner()->GetTransform().GetTranslation().ToString());
 	
 }
 
