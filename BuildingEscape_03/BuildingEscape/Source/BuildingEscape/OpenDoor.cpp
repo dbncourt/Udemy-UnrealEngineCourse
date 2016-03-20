@@ -10,6 +10,8 @@ UOpenDoor::UOpenDoor()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
+	this->CloseDelay = 1.0f;
+	this->TimeLastOpen = 0.0f;
 }
 
 // Called when the game starts
@@ -27,14 +29,28 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 
 	if (this->PressurePlate->IsOverlappingActor(this->Triggerer))
 	{
-		UOpenDoor::OpenDoor();
+		UOpenDoor::Open();
+		this->TimeLastOpen = GetWorld()->GetTimeSeconds();
+	}
+	else if (GetWorld()->GetTimeSeconds() - this->TimeLastOpen > this->CloseDelay)
+	{
+		UOpenDoor::Close();
 	}
 }
 
-void UOpenDoor::OpenDoor()
+void UOpenDoor::Open()
 {
-	AActor* Owner = GetOwner();
 	FRotator Rotation = FRotator(0.0f, this->OpenAngle, 0.0f);
+	Rotate(Rotation);
+}
 
-	Owner->SetActorRotation(Rotation);
+void UOpenDoor::Close()
+{
+	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
+	Rotate(Rotation);
+}
+
+void UOpenDoor::Rotate(FRotator Rotation)
+{
+	GetOwner()->SetActorRotation(Rotation);
 }

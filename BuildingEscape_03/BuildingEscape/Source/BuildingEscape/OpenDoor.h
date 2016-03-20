@@ -22,7 +22,10 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
-	void OpenDoor();
+	void Open();
+	void Close();
+	void Rotate(FRotator Rotation);
+
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -33,4 +36,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	APawn* Triggerer;
+
+	UPROPERTY(EditAnywhere)
+	float CloseDelay;
+
+	float TimeLastOpen;
 };
