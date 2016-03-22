@@ -13,6 +13,8 @@ UGrabber::UGrabber()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	this->DebugLineReach = 100.0f;
+	this->PhysicsHandle = nullptr;
+	this->InputComponent = nullptr;
 }
 
 
@@ -20,8 +22,23 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-}
 
+	this->PhysicsHandle = GetOwner()->FindComponentByClass <UPhysicsHandleComponent>();
+	if (!this->PhysicsHandle)
+	{
+		UE_LOG(LogTemp, Error, TEXT("% Missing Physics Handle Component"), *GetOwner()->GetName());
+	}
+
+	this->InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if(!this->InputComponent)
+	{
+		UE_LOG(LogTemp, Error, TEXT("% Missing Input Component"), *GetOwner()->GetName());
+	}
+	else
+	{
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+}
 
 // Called every frame
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
@@ -54,4 +71,9 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *Hit.GetActor()->GetName());
 	}
+}
+
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grabbing!!"));
 }
