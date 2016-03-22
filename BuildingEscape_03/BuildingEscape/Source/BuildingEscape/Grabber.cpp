@@ -12,7 +12,7 @@ UGrabber::UGrabber()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	this->DebugLineReach = 100.0f;
 }
 
 
@@ -20,9 +20,6 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -36,5 +33,15 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
 
 	UE_LOG(LogTemp, Warning, TEXT("Location: %s - Rotation: %s"), *Location.ToString(), *Rotation.ToString());
+
+	DrawDebugLine(GetWorld(),
+		Location,
+		(Location + (Rotation.Vector() * this->DebugLineReach)),
+		FColor(0, 255, 0),
+		false,
+		0.0f,
+		0.0f,
+		10.0f
+		);
 }
 
