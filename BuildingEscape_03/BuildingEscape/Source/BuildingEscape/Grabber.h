@@ -1,5 +1,3 @@
-// You can do whatever you want with this! :)
-
 #pragma once
 
 #include "Components/ActorComponent.h"

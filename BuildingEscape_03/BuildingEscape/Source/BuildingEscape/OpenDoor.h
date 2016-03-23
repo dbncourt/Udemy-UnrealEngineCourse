@@ -1,5 +1,3 @@
-// You can do whatever you want with this! :)
-
 #pragma once
 
 #include "Components/ActorComponent.h"
@@ -12,19 +10,19 @@ class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+
 	UOpenDoor();
 
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
 	void Open();
 	void Close();
 	void Rotate(FRotator Rotation);
+
+	float GetTotalMassOnThePale();
 
 
 private:
@@ -33,9 +31,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float OpenAngle = 90.0f;
-
-	UPROPERTY(EditAnywhere)
-	APawn* Triggerer;
 
 	UPROPERTY(EditAnywhere)
 	float CloseDelay;

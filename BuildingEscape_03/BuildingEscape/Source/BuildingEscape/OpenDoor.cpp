@@ -1,33 +1,24 @@
-// You can do whatever you want with this! :)
-
 #include "BuildingEscape.h"
 #include "OpenDoor.h"
 
-// Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 	this->CloseDelay = 1.0f;
 	this->TimeLastOpen = 0.0f;
 }
 
-// Called when the game starts
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	this->Triggerer = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
-// Called every frame
 void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	if (this->PressurePlate->IsOverlappingActor(this->Triggerer))
+	if (UOpenDoor::GetTotalMassOnThePale() > 30.0f)
 	{
 		UOpenDoor::Open();
 		this->TimeLastOpen = GetWorld()->GetTimeSeconds();
@@ -36,6 +27,21 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 	{
 		UOpenDoor::Close();
 	}
+}
+
+float UOpenDoor::GetTotalMassOnThePale()
+{
+	float TotalMass = 0.0f;
+	TArray<AActor*> Actors;
+	this->PressurePlate->GetOverlappingActors(Actors);
+
+	for (auto& Actor : Actors)
+	{
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("Total Mass is: %f"), TotalMass);
+	return TotalMass;
 }
 
 void UOpenDoor::Open()
