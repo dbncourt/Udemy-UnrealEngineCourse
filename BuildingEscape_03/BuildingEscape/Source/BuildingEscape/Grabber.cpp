@@ -12,7 +12,7 @@ UGrabber::UGrabber()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
-	this->DebugLineReach = 100.0f;
+	this->LineReach = 100.0f;
 	this->PhysicsHandle = nullptr;
 	this->InputComponent = nullptr;
 }
@@ -56,6 +56,16 @@ void UGrabber::SetupInputComponent()
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+
+	if (this->PhysicsHandle->GrabbedComponent)
+	{
+		FVector Location;
+		FRotator Rotation;
+		GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
+
+		FVector LineTraceEnd = (Location + (Rotation.Vector() * this->LineReach));
+		this->PhysicsHandle->SetTargetLocation(LineTraceEnd);
+	}
 }
 
 const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
@@ -64,7 +74,7 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 	FRotator Rotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
 
-	FVector LineTraceEnd = (Location + (Rotation.Vector() * this->DebugLineReach));
+	FVector LineTraceEnd = (Location + (Rotation.Vector() * this->LineReach));
 
 	FHitResult Hit;
 	GetWorld()->LineTraceSingleByObjectType(
@@ -84,10 +94,21 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 void UGrabber::Grab()
 {
 	FHitResult Hit = UGrabber::GetFirstPhysicsBodyInReach();
-	UE_LOG(LogTemp, Warning, TEXT("Grabbing: %s"), Hit.GetActor() ? *Hit.GetActor()->GetName() : L"Nothing");
+
+	if (Hit.GetActor())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Grabbing: %s"), *Hit.GetActor()->GetName());
+
+		this->PhysicsHandle->GrabComponent(
+			Hit.GetComponent(),
+			EName::NAME_None,
+			Hit.GetComponent()->GetOwner()->GetActorLocation(),
+			true);
+	}
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Releasing!!"));
+	this->PhysicsHandle->ReleaseComponent();
 }

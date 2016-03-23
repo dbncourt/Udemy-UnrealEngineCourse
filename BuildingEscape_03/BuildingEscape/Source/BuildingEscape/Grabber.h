@@ -32,7 +32,7 @@ private:
 		
 private:
 	UPROPERTY(EditAnywhere)
-	float DebugLineReach;
+	float LineReach;
 
 	UPhysicsHandleComponent* PhysicsHandle;
 	
