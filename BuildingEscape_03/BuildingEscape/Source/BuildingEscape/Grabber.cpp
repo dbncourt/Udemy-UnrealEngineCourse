@@ -23,41 +23,48 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UGrabber::FindPhysicsHandleComponent();
+	UGrabber::SetupInputComponent();
+}
+
+#pragma region Begin Play Configuration
+void UGrabber::FindPhysicsHandleComponent()
+{
 	this->PhysicsHandle = GetOwner()->FindComponentByClass <UPhysicsHandleComponent>();
 	if (!this->PhysicsHandle)
 	{
 		UE_LOG(LogTemp, Error, TEXT("% Missing Physics Handle Component"), *GetOwner()->GetName());
 	}
+}
 
+void UGrabber::SetupInputComponent()
+{
 	this->InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
-	if(!this->InputComponent)
+	if (!this->InputComponent)
 	{
 		UE_LOG(LogTemp, Error, TEXT("% Missing Input Component"), *GetOwner()->GetName());
 	}
 	else
 	{
 		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 	}
 }
+#pragma endregion
 
 // Called every frame
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+}
 
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+{
 	FVector Location;
 	FRotator Rotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
 
 	FVector LineTraceEnd = (Location + (Rotation.Vector() * this->DebugLineReach));
-	DrawDebugLine(GetWorld(),
-		Location,
-		LineTraceEnd,
-		FColor(0, 255, 0),
-		false,
-		0.0f,
-		0.0f,
-		10.0f);
 
 	FHitResult Hit;
 	GetWorld()->LineTraceSingleByObjectType(
@@ -71,9 +78,16 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *Hit.GetActor()->GetName());
 	}
+	return Hit;
 }
 
 void UGrabber::Grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grabbing!!"));
+	FHitResult Hit = UGrabber::GetFirstPhysicsBodyInReach();
+	UE_LOG(LogTemp, Warning, TEXT("Grabbing: %s"), Hit.GetActor() ? *Hit.GetActor()->GetName() : L"Nothing");
+}
+
+void UGrabber::Release()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Releasing!!"));
 }

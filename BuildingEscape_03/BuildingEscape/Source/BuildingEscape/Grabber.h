@@ -22,7 +22,13 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
+	void SetupInputComponent();
+	void FindPhysicsHandleComponent();
+
+	const FHitResult GetFirstPhysicsBodyInReach();
+
 	void Grab();
+	void Release();
 		
 private:
 	UPROPERTY(EditAnywhere)
