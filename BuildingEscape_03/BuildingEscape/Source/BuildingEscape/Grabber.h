@@ -26,6 +26,9 @@ private:
 	void FindPhysicsHandleComponent();
 
 	const FHitResult GetFirstPhysicsBodyInReach();
+	
+	FVector GetReachLineStart();
+	FVector GetReachLineEnd();
 
 	void Grab();
 	void Release();
@@ -35,6 +38,5 @@ private:
 	float LineReach;
 
 	UPhysicsHandleComponent* PhysicsHandle;
-	
 	UInputComponent* InputComponent;
 };

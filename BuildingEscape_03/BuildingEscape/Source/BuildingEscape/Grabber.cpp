@@ -52,35 +52,41 @@ void UGrabber::SetupInputComponent()
 }
 #pragma endregion
 
-// Called every frame
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	if (this->PhysicsHandle->GrabbedComponent)
 	{
-		FVector Location;
-		FRotator Rotation;
-		GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
-
-		FVector LineTraceEnd = (Location + (Rotation.Vector() * this->LineReach));
-		this->PhysicsHandle->SetTargetLocation(LineTraceEnd);
+		this->PhysicsHandle->SetTargetLocation(UGrabber::GetReachLineEnd());
 	}
 }
 
-const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+FVector UGrabber::GetReachLineStart()
 {
 	FVector Location;
 	FRotator Rotation;
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
 
-	FVector LineTraceEnd = (Location + (Rotation.Vector() * this->LineReach));
+	return Location;
+}
 
+FVector UGrabber::GetReachLineEnd()
+{
+	FVector Location;
+	FRotator Rotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(Location, Rotation);
+
+	return (Location + (Rotation.Vector() * this->LineReach));
+}
+
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
+{
 	FHitResult Hit;
 	GetWorld()->LineTraceSingleByObjectType(
 		Hit,
-		Location,
-		LineTraceEnd,
+		UGrabber::GetReachLineStart(),
+		UGrabber::GetReachLineEnd(),
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		FCollisionQueryParams(FName(TEXT("")), false, GetOwner()));
 
@@ -97,8 +103,6 @@ void UGrabber::Grab()
 
 	if (Hit.GetActor())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Grabbing: %s"), *Hit.GetActor()->GetName());
-
 		this->PhysicsHandle->GrabComponent(
 			Hit.GetComponent(),
 			EName::NAME_None,
@@ -109,6 +113,5 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Releasing!!"));
 	this->PhysicsHandle->ReleaseComponent();
 }
