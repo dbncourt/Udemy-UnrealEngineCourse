@@ -5,14 +5,15 @@ UOpenDoor::UOpenDoor()
 {
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-	this->CloseDelay = 1.0f;
-	this->TimeLastOpen = 0.0f;
 	this->PressurePlate = nullptr;
+	this->TriggerMass = 0.0f;
+	this->InitialYaw = 0.0f;
 }
 
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
+	this->InitialYaw = this->GetOwner()->GetActorRotation().Yaw;
 }
 
 void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
@@ -24,14 +25,13 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Pressure Plate Reference for: ") + FString(*GetOwner()->GetName()));
 		return;
 	}
-	if (UOpenDoor::GetTotalMassOnThePale() > 30.0f)
+	if (UOpenDoor::GetTotalMassOnThePale() > this->TriggerMass)
 	{
-		UOpenDoor::Open();
-		this->TimeLastOpen = GetWorld()->GetTimeSeconds();
+		OnOpen.Broadcast();
 	}
-	else if (GetWorld()->GetTimeSeconds() - this->TimeLastOpen > this->CloseDelay)
+	else if(this->GetOwner()->GetActorRotation().Yaw > this->InitialYaw)
 	{
-		UOpenDoor::Close();
+		OnClose.Broadcast();
 	}
 }
 
@@ -48,21 +48,4 @@ float UOpenDoor::GetTotalMassOnThePale()
 
 	GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Green, TEXT("Total Mass is: ") + FString::SanitizeFloat(TotalMass));
 	return TotalMass;
-}
-
-void UOpenDoor::Open()
-{
-	FRotator Rotation = FRotator(0.0f, this->OpenAngle, 0.0f);
-	Rotate(Rotation);
-}
-
-void UOpenDoor::Close()
-{
-	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
-	Rotate(Rotation);
-}
-
-void UOpenDoor::Rotate(FRotator Rotation)
-{
-	GetOwner()->SetActorRotation(Rotation);
 }

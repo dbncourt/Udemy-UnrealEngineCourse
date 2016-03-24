@@ -3,7 +3,7 @@
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorEvent);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 {
@@ -20,23 +20,22 @@ public:
 public:
 	const static int DEBUG_MESSAGE_ID = 1;
 
-private:
-	void Open();
-	void Close();
-	void Rotate(FRotator Rotation);
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent OnOpen;
 
+	UPROPERTY(BlueprintAssignable)
+	FDoorEvent OnClose;
+
+private:
 	float GetTotalMassOnThePale();
 
 
 private:
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
-
-	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = 90.0f;
-
+	
 	UPROPERTY(EditAnywhere)
-	float CloseDelay;
+	float TriggerMass;
 
-	float TimeLastOpen;
+	float InitialYaw;
 };
