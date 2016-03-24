@@ -17,6 +17,9 @@ public:
 
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+public:
+	const static int DEBUG_MESSAGE_ID = 1;
+
 private:
 	void Open();
 	void Close();

@@ -16,7 +16,10 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	UGrabber::FindPhysicsHandleComponent();
-	UGrabber::SetupInputComponent();
+	if (this->PhysicsHandle)
+	{
+		UGrabber::SetupInputComponent();
+	}
 }
 
 #pragma region Begin Play Configuration
@@ -25,7 +28,7 @@ void UGrabber::FindPhysicsHandleComponent()
 	this->PhysicsHandle = GetOwner()->FindComponentByClass <UPhysicsHandleComponent>();
 	if (!this->PhysicsHandle)
 	{
-		UE_LOG(LogTemp, Error, TEXT("% Missing Physics Handle Component"), *GetOwner()->GetName());
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Physics Handle Component: ") + FString(*GetOwner()->GetName()));
 	}
 }
 
@@ -34,7 +37,8 @@ void UGrabber::SetupInputComponent()
 	this->InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (!this->InputComponent)
 	{
-		UE_LOG(LogTemp, Error, TEXT("% Missing Input Component"), *GetOwner()->GetName());
+		//FMessageDialog::Debugf(FText::FromString("Missing Input Component: " + GetOwner()->GetName()));
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Input Component: ") + FString(*GetOwner()->GetName()));
 	}
 	else
 	{
@@ -44,11 +48,19 @@ void UGrabber::SetupInputComponent()
 }
 #pragma endregion
 
-void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (this->PhysicsHandle->GrabbedComponent)
+	if (!this->PhysicsHandle)
+	{
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Physics Handle Component: ") + FString(*GetOwner()->GetName()));
+	}
+	else if (!this->InputComponent)
+	{
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Input Component: ") + FString(*GetOwner()->GetName()));
+	}
+	else if (this->PhysicsHandle->GrabbedComponent)
 	{
 		this->PhysicsHandle->SetTargetLocation(UGrabber::GetReachLineEnd());
 	}
@@ -82,10 +94,6 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		FCollisionQueryParams(FName(TEXT("")), false, GetOwner()));
 
-	if (Hit.GetActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *Hit.GetActor()->GetName());
-	}
 	return Hit;
 }
 
@@ -95,6 +103,7 @@ void UGrabber::Grab()
 
 	if (Hit.GetActor())
 	{
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Green, TEXT("Holding: ") + FString(*Hit.GetActor()->GetName()));
 		this->PhysicsHandle->GrabComponent(
 			Hit.GetComponent(),
 			EName::NAME_None,

@@ -7,6 +7,7 @@ UOpenDoor::UOpenDoor()
 	PrimaryComponentTick.bCanEverTick = true;
 	this->CloseDelay = 1.0f;
 	this->TimeLastOpen = 0.0f;
+	this->PressurePlate = nullptr;
 }
 
 void UOpenDoor::BeginPlay()
@@ -18,6 +19,11 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
+	if (!this->PressurePlate)
+	{
+		GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Red, TEXT("Missing Pressure Plate Reference for: ") + FString(*GetOwner()->GetName()));
+		return;
+	}
 	if (UOpenDoor::GetTotalMassOnThePale() > 30.0f)
 	{
 		UOpenDoor::Open();
@@ -39,8 +45,8 @@ float UOpenDoor::GetTotalMassOnThePale()
 	{
 		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 	}
-	
-	UE_LOG(LogTemp, Warning, TEXT("Total Mass is: %f"), TotalMass);
+
+	GEngine->AddOnScreenDebugMessage(DEBUG_MESSAGE_ID, 1.0f, FColor::Green, TEXT("Total Mass is: ") + FString::SanitizeFloat(TotalMass));
 	return TotalMass;
 }
 
