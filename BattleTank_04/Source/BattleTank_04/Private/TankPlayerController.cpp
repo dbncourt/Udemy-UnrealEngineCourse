@@ -3,6 +3,12 @@
 #include "BattleTank_04.h"
 #include "TankPlayerController.h"
 
+ATankPlayerController::ATankPlayerController()
+{
+	this->CrossHairXLocation = 0.5f;
+	this->CrossHairYLocation = 0.33333f;
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -36,7 +42,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 		FVector HitLocation;
 		if (ATankPlayerController::GetSightRayHitLocation(HitLocation))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitLocation.ToString());
 		}
 		
 	}
@@ -44,6 +50,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 {
+	int32 ViewportSizeX;
+	int32 ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+	FVector2D ScreenLocation = FVector2D((ViewportSizeX * this->CrossHairXLocation), (ViewportSizeY * this->CrossHairYLocation));
+
 	HitLocation = FVector(1.0f);
 	return true;
 }
