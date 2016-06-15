@@ -16,6 +16,11 @@ void ATank::AimAt(FVector AimLocation)
 	this->TankAimingComponent->AimAt(AimLocation);
 }
 
+void ATank::SetBarrelReference(UStaticMeshComponent * Barrel)
+{
+	this->TankAimingComponent->SetBarrelReference(Barrel);
+}
+
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
