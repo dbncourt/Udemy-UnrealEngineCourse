@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -15,8 +16,10 @@ public:
 
 	void AimAt(FVector AimLocation);
 
+protected:
+	UTankAimingComponent* TankAimingComponent;
+
 private:
-	
 	virtual void BeginPlay() override;
 	
 	virtual void Tick( float DeltaTime ) override;
