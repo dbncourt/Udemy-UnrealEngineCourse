@@ -3,7 +3,6 @@
 #include "BattleTank_04.h"
 #include "Tank.h"
 
-
 // Sets default values
 ATank::ATank()
 {
@@ -12,24 +11,26 @@ ATank::ATank()
 
 }
 
+void ATank::AimAt(FVector AimLocation)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s Aiming At %s"), *GetName(), *AimLocation.ToString());
+}
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ATank::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
-
 }
 

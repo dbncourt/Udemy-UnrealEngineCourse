@@ -11,18 +11,15 @@ class BATTLETANK_04_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	ATank();
 
-	// Called when the game starts or when spawned
+	void AimAt(FVector AimLocation);
+
+private:
+	
 	virtual void BeginPlay() override;
 	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick( float DeltaTime ) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
-	
-	
+	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;	
 };
