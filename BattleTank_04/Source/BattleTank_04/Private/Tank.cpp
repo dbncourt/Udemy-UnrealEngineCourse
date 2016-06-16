@@ -6,14 +6,15 @@
 // Sets default values
 ATank::ATank()
 {
-	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));;
+	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
+	this->LaunchSpeed = 100000;
 
 	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATank::AimAt(FVector AimLocation)
 {
-	this->TankAimingComponent->AimAt(AimLocation);
+	this->TankAimingComponent->AimAt(AimLocation, this->LaunchSpeed);
 }
 
 void ATank::SetBarrelReference(UStaticMeshComponent * Barrel)

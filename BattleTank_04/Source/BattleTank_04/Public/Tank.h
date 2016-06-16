@@ -28,4 +28,7 @@ private:
 	virtual void Tick( float DeltaTime ) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;	
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaunchSpeed;
 };
