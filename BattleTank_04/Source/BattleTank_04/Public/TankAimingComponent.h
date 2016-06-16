@@ -19,9 +19,7 @@ public:
 	void SetBarrelReference(UStaticMeshComponent* Barrel);
 
 private:
-	virtual void BeginPlay() override;
-	
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;	
+	void RotateBarrel(FVector AimDirection);
 
 private:
 	UStaticMeshComponent* Barrel;
