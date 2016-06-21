@@ -2,6 +2,7 @@
 
 #include "BattleTank_04.h"
 #include "../Public/Tank.h"
+#include "../Public/TankBarrel.h"
 
 // Sets default values
 ATank::ATank()
@@ -17,7 +18,7 @@ void ATank::AimAt(FVector AimLocation)
 	this->TankAimingComponent->AimAt(AimLocation, this->LaunchSpeed);
 }
 
-void ATank::SetBarrelReference(UStaticMeshComponent * Barrel)
+void ATank::SetBarrelReference(UTankBarrel * Barrel)
 {
 	this->TankAimingComponent->SetBarrelReference(Barrel);
 }

@@ -16,11 +16,11 @@ public:
 
 	void AimAt(FVector AimLocation, float LaunchSpeed);
 
-	void SetBarrelReference(UStaticMeshComponent* Barrel);
+	void SetBarrelReference(class UTankBarrel* Barrel);
 
 private:
 	void RotateBarrel(FVector AimDirection);
 
 private:
-	UStaticMeshComponent* Barrel;
+	class UTankBarrel* Barrel;
 };
