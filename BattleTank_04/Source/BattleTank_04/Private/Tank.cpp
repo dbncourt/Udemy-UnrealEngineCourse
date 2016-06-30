@@ -10,7 +10,7 @@ ATank::ATank()
 	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
 	this->LaunchSpeed = 100000;
 
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 }
 
 void ATank::AimAt(FVector AimLocation)
@@ -26,11 +26,6 @@ void ATank::SetBarrelReference(UTankBarrel * Barrel)
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void ATank::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
 }
 
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)

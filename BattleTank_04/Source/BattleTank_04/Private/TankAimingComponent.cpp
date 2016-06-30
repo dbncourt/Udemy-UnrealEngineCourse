@@ -27,11 +27,16 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 	{
 		FVector LaunchVelocity;
 		FVector StartLocation = Barrel->GetSocketLocation(FName("Cannon"));
+		float Time = GetWorld()->GetTimeSeconds();
 		if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), LaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			FVector AimDirection = LaunchVelocity.GetSafeNormal();
 			UTankAimingComponent::RotateBarrel(AimDirection);
-			//UE_LOG(LogTemp, Warning, TEXT("%s Aiming At: %s"), *GetOwner()->GetName(), *AimDirection.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("%f Aim Solution found"), Time);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%f No Aim Solution found"), Time);
 		}
 	}
 }
