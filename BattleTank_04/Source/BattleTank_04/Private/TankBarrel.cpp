@@ -13,6 +13,4 @@ UTankBarrel::UTankBarrel()
 
 void UTankBarrel::Elevate(float RelativeSpeed)
 {
-	float Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("%f Barrel Elevated: %f"), Time, RelativeSpeed);
 }

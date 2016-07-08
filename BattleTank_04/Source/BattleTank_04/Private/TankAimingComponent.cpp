@@ -17,8 +17,6 @@ void UTankAimingComponent::RotateBarrel(FVector AimDirection)
 	FRotator DeltaRotator = AimRotation - BarrelRotation;
 
 	Barrel->Elevate(5.0f);
-
-	UE_LOG(LogTemp, Warning, TEXT("AimRotation: %s"), *AimRotation.ToString());
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
@@ -28,7 +26,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 		FVector LaunchVelocity;
 		FVector StartLocation = Barrel->GetSocketLocation(FName("Cannon"));
 		float Time = GetWorld()->GetTimeSeconds();
-		if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), LaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
+		if (UGameplayStatics::SuggestProjectileVelocity(this, LaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			FVector AimDirection = LaunchVelocity.GetSafeNormal();
 			UTankAimingComponent::RotateBarrel(AimDirection);

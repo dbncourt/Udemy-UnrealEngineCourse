@@ -2,6 +2,7 @@
 
 #include "BattleTank_04.h"
 #include "../Public/TankPlayerController.h"
+#include "../Public/Tank.h"
 
 ATankPlayerController::ATankPlayerController()
 {

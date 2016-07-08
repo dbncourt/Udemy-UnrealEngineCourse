@@ -3,7 +3,6 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -20,7 +19,7 @@ public:
 	void SetBarrelReference(class UTankBarrel* Barrel);
 
 protected:
-	UTankAimingComponent* TankAimingComponent;
+	class UTankAimingComponent* TankAimingComponent;
 
 private:
 	virtual void BeginPlay() override;
