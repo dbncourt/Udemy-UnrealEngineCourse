@@ -2,6 +2,7 @@
 
 #include "BattleTank_04.h"
 #include "../Public/TankBarrel.h"
+#include "../Public/TankTurret.h"
 #include "../Public/TankAimingComponent.h"
 
 UTankAimingComponent::UTankAimingComponent()
@@ -42,4 +43,9 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* Barrel)
 {
 	this->Barrel = Barrel;
+}
+
+void UTankAimingComponent::SetTurretReference(class UTankTurret* Turret)
+{
+	this->Turret = Turret;
 }
