@@ -9,10 +9,10 @@
 // Sets default values
 ATank::ATank()
 {
-	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
-	this->LaunchSpeed = 100000;
-
 	PrimaryActorTick.bCanEverTick = false;
+
+	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
+	this->LaunchSpeed = 4000.0f;
 }
 
 void ATank::AimAt(FVector AimLocation)

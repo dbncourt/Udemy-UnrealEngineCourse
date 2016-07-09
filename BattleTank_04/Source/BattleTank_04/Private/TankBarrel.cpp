@@ -5,7 +5,7 @@
 
 UTankBarrel::UTankBarrel()
 {
-	this->MaxDegreesPerSecond = 20.0f;
+	this->MaxDegreesPerSecond = 10.0f;
 
 	this->MaxElevationDegrees = 40.0f;
 	this->MinElevationDegrees = 0.0f;

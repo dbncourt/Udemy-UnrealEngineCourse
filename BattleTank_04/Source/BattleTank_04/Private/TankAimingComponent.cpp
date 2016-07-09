@@ -7,17 +7,21 @@
 
 UTankAimingComponent::UTankAimingComponent()
 {
-	bWantsBeginPlay = true;
-	PrimaryComponentTick.bCanEverTick = true;
+	bWantsBeginPlay = false;
+	PrimaryComponentTick.bCanEverTick = false;
+
+	this->Barrel = nullptr;
+	this->Turret = nullptr;
 }
 
-void UTankAimingComponent::RotateBarrel(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimRotation = AimDirection.Rotation();
 	FRotator DeltaRotator = AimRotation - BarrelRotation;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate (DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
@@ -30,7 +34,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 		if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), LaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
 			FVector AimDirection = LaunchVelocity.GetSafeNormal();
-			UTankAimingComponent::RotateBarrel(AimDirection);
+			UTankAimingComponent::MoveBarrelTowards(AimDirection);
 			UE_LOG(LogTemp, Warning, TEXT("%f Aim Solution found"), Time);
 		}
 		else

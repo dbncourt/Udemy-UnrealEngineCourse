@@ -21,11 +21,10 @@ public:
 	void SetTurretReference(class UTankTurret* Turret);
 
 private:
-	void RotateBarrel(FVector AimDirection);
+	void MoveBarrelTowards(FVector AimDirection);
 
 private:
 	class UTankBarrel* Barrel;
 
 	class UTankTurret* Turret;
-
 };
