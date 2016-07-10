@@ -29,12 +29,17 @@ protected:
 
 private:
 	virtual void BeginPlay() override;
-	
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;	
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	double ReloadTime;
+
 	UPROPERTY(EditAnywhere, Category = "SetUp")
 	TSubclassOf<class AProjectile> Projectile;
+
+	double LastFireTime;
 };

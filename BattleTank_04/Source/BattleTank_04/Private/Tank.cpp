@@ -14,6 +14,8 @@ ATank::ATank()
 
 	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
 	this->LaunchSpeed = 4000.0f;
+	this->LastFireTime = 0.0;
+	this->ReloadTime = 3.0;
 }
 
 void ATank::AimAt(FVector AimLocation)
@@ -33,13 +35,20 @@ void ATank::SetTurretReference(class UTankTurret* Turret)
 
 void ATank::Fire()
 {
-	UTankBarrel* Barrel = this->TankAimingComponent->GetBarrelReference();
-	if (Barrel)
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime;
+
+	if (IsReloaded)
 	{
-		FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Cannon"));
-		FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Cannon"));
-		AProjectile* SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(this->Projectile, ProjectileLocation, ProjectileRotation);
-		SpawnedProjectile->LaunchProjectile(this->LaunchSpeed);
+		UTankBarrel* Barrel = this->TankAimingComponent->GetBarrelReference();
+		if (Barrel && this->Projectile)
+		{
+			FVector ProjectileLocation = Barrel->GetSocketLocation(FName("Cannon"));
+			FRotator ProjectileRotation = Barrel->GetSocketRotation(FName("Cannon"));
+			AProjectile* SpawnedProjectile = GetWorld()->SpawnActor<AProjectile>(this->Projectile, ProjectileLocation, ProjectileRotation);
+			SpawnedProjectile->LaunchProjectile(this->LaunchSpeed);
+
+			LastFireTime = FPlatformTime::Seconds();
+		}
 	}
 }
 
