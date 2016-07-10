@@ -43,7 +43,17 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* Barrel)
 	this->Barrel = Barrel;
 }
 
+class UTankBarrel* UTankAimingComponent::GetBarrelReference()
+{
+	return this->Barrel;
+}
+
 void UTankAimingComponent::SetTurretReference(class UTankTurret* Turret)
 {
 	this->Turret = Turret;
+}
+
+class UTankTurret* UTankAimingComponent::GetTurretReference()
+{
+	return this->Turret;
 }

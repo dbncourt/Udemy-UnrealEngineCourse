@@ -34,4 +34,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "SetUp")
+	TSubclassOf<class AProjectile> Projectile;
 };
