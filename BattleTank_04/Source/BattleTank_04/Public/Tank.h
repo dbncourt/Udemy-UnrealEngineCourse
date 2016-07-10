@@ -32,14 +32,14 @@ private:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = "Firing")
-	float LaunchSpeed;
-
-	UPROPERTY(EditAnywhere, Category = "Firing")
-	double ReloadTime;
-
-	UPROPERTY(EditAnywhere, Category = "SetUp")
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
 	TSubclassOf<class AProjectile> Projectile;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	double ReloadTime;
+	
 	double LastFireTime;
 };
