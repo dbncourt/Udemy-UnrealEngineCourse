@@ -6,6 +6,7 @@
 #include "../Public/TankTurret.h"
 #include "../Public/Projectile.h"
 #include "../Public/TankAimingComponent.h"
+#include "../Public/TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -13,6 +14,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	this->TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("Aiming Component"));
+	this->TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(TEXT("Movement Component"));
 	this->LaunchSpeed = 4000.0f;
 	this->LastFireTime = 0.0;
 	this->ReloadTime = 3.0;

@@ -27,6 +27,9 @@ public:
 protected:
 	class UTankAimingComponent* TankAimingComponent;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	class UTankMovementComponent* TankMovementComponent;
+
 private:
 	virtual void BeginPlay() override;
 
