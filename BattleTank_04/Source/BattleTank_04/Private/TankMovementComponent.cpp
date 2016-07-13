@@ -36,7 +36,13 @@ void UTankMovementComponent::Initialize(UTankTrack* RightTrack, UTankTrack* Left
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	float ForwardThrow = FVector::DotProduct(GetOwner()->GetActorForwardVector().GetSafeNormal(), MoveVelocity.GetSafeNormal());
+	FVector TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	FVector ForwardIntentionVector = MoveVelocity.GetSafeNormal();
+	FVector PerpendicularVector = GetOwner()->GetActorUpVector().GetSafeNormal();
 
+	float ForwardThrow = FVector::DotProduct(TankForwardVector, ForwardIntentionVector);
 	UTankMovementComponent::MoveForward(ForwardThrow);
+	
+	float RightThrow = FVector::CrossProduct(TankForwardVector, ForwardIntentionVector).Z;
+	UTankMovementComponent::TurnRight(RightThrow);
 }
