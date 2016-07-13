@@ -13,8 +13,14 @@ class BATTLETANK_04_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
+public:
+	ATankAIController();
+
 private:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
+
+private:
+	float AcceptanceRadius;
 };

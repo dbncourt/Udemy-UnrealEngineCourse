@@ -4,6 +4,11 @@
 #include "../Public/TankAIController.h"
 #include "../Public/Tank.h"
 
+ATankAIController::ATankAIController()
+{
+	AcceptanceRadius = 3000.0f;
+}
+
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -16,7 +21,9 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (PlayerTank)
 	{
+		auto vector = MoveToActor(PlayerTank, AcceptanceRadius);
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		ControlledTank->Fire();
+		//ControlledTank->Fire();
 	}
 }
+
