@@ -10,8 +10,9 @@ UTankAimingComponent::UTankAimingComponent()
 	bWantsBeginPlay = false;
 	PrimaryComponentTick.bCanEverTick = false;
 
-	this->Barrel = nullptr;
-	this->Turret = nullptr;
+	Barrel = nullptr;
+	Turret = nullptr;
+	FiringState = EFiringState::Reloading;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
