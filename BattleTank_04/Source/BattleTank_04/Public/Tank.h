@@ -25,6 +25,7 @@ public:
 	void Fire();
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = "Aiming")
 	class UTankAimingComponent* TankAimingComponent;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
