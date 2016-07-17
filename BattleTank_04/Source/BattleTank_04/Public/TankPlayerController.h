@@ -17,8 +17,8 @@ public:
 	ATankPlayerController();
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "SetUp")
-	class ATank* GetControlledTank() const;
+	UFUNCTION(BlueprintImplementableEvent, Category = "SetUp")
+	void FoundAimingComponent(class UTankAimingComponent* AimingComponentReference);
 
 private:
 	virtual void BeginPlay() override;

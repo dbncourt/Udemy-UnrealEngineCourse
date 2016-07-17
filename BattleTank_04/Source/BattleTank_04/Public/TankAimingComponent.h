@@ -21,13 +21,13 @@ class BATTLETANK_04_API UTankAimingComponent : public UActorComponent
 public:	
 	UTankAimingComponent();
 
-	void AimAt(FVector AimLocation, float LaunchSpeed);
+	void AimAt(FVector AimLocation);
 
-	void SetBarrelReference(class UTankBarrel* Barrel);
-	class UTankBarrel* GetBarrelReference();
+	UFUNCTION(BlueprintCallable, Category = "SetUp")
+	void Initialize(class UTankBarrel* Barrel, class UTankTurret* Turret);
 
-	void SetTurretReference(class UTankTurret* Turret);
-	class UTankTurret* GetTurretReference();
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 
 private:
 	void MoveBarrelTowards(FVector AimDirection);
@@ -40,4 +40,15 @@ private:
 	class UTankBarrel* Barrel;
 
 	class UTankTurret* Turret;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SetUp")
+	TSubclassOf<class AProjectile> Projectile;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	double ReloadTime;
+
+	double LastFireTime;
 };
