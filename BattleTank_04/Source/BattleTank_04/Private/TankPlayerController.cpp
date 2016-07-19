@@ -30,13 +30,16 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	UTankAimingComponent* TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(TankAimingComponent))
+	if (GetPawn())
 	{
-		FVector HitLocation;
-		if (ATankPlayerController::GetSightRayHitLocation(HitLocation))
+		UTankAimingComponent* TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+		if (ensure(TankAimingComponent))
 		{
-			TankAimingComponent->AimAt(HitLocation);
+			FVector HitLocation;
+			if (ATankPlayerController::GetSightRayHitLocation(HitLocation))
+			{
+				TankAimingComponent->AimAt(HitLocation);
+			}
 		}
 	}
 }

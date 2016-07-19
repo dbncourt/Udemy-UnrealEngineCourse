@@ -20,6 +20,9 @@ public:
 	void SetThrottle(float Throttle);
 
 private:
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+private:
 	UPROPERTY(EditDefaultsOnly, Category="Movement")
 	float TrackMaxDrivingForce = 400000.0f;
 };
