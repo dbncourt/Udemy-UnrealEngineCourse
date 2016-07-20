@@ -5,13 +5,20 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
-	this->SetNotifyRigidBodyCollision(true);
+	PrimaryComponentTick.bCanEverTick = false;
+	UPrimitiveComponent::SetNotifyRigidBodyCollision(true);
+
+	CurrentThrottle = 0.0f;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	FVector ForceApplied = (GetForwardVector() * Throttle) * TrackMaxDrivingForce;
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1.0f, 1.0f);
+}
+
+void UTankTrack::DriveTrack()
+{
+	FVector ForceApplied = (GetForwardVector() * CurrentThrottle) * TrackMaxDrivingForce;
 	FVector ForceLocation = GetComponentLocation();
 
 	UPrimitiveComponent* TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
@@ -23,8 +30,9 @@ void UTankTrack::BeginPlay()
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
-void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+void UTankTrack::ApplySidewaysForce()
 {
+	float DeltaTime = GetWorld()->GetDeltaSeconds();
 	float SlippageSpeed = FVector::DotProduct(this->ComponentVelocity, GetRightVector());
 	FVector CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
 
@@ -36,5 +44,7 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s Floor"), *GetName())
+	DriveTrack();
+	ApplySidewaysForce();
+	CurrentThrottle = 0.0f;
 }
