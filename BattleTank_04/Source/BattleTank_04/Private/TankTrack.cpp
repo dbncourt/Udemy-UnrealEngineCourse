@@ -6,6 +6,7 @@
 UTankTrack::UTankTrack()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	this->SetNotifyRigidBodyCollision(true);
 }
 
 void UTankTrack::SetThrottle(float Throttle)
@@ -17,6 +18,11 @@ void UTankTrack::SetThrottle(float Throttle)
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
+void UTankTrack::BeginPlay()
+{
+	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
+}
+
 void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
 	float SlippageSpeed = FVector::DotProduct(this->ComponentVelocity, GetRightVector());
@@ -26,4 +32,9 @@ void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActor
 	FVector CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) / 2;
 
 	TankRoot->AddForce(CorrectionForce);
+}
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s Floor"), *GetName())
 }
