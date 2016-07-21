@@ -6,7 +6,7 @@
 
 ATankAIController::ATankAIController()
 {
-	AcceptanceRadius = 3000.0f;
+	AcceptanceRadius = 10000.0f;
 }
 
 void ATankAIController::BeginPlay()
@@ -26,7 +26,11 @@ void ATankAIController::Tick(float DeltaTime)
 		if (ensure(TankAimingComponent))
 		{
 			TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
-			TankAimingComponent->Fire();
+
+			if (TankAimingComponent->GetFiringState() == EFiringState::Locked)
+			{
+				TankAimingComponent->Fire();
+			}
 		}
 	}
 }

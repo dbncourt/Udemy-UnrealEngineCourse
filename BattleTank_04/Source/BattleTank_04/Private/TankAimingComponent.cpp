@@ -42,7 +42,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 	if (ensure(Barrel))
 	{
 		FVector CurrentForwardVector = Barrel->GetForwardVector();
-		return !CurrentForwardVector.Equals(AimDirection, 0.01f);
+		return !CurrentForwardVector.Equals(AimDirection, 0.1f);
 	}
 	else
 	{
@@ -105,4 +105,9 @@ void UTankAimingComponent::Fire()
 			LastFireTime = FPlatformTime::Seconds();
 		}
 	}
+}
+
+EFiringState UTankAimingComponent::GetFiringState()
+{
+	return FiringState;
 }
