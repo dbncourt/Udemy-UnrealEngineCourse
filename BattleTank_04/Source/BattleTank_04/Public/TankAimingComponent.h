@@ -59,4 +59,6 @@ private:
 	double LastFireTime;
 
 	FVector LastForwardVector;
+
+	FVector AimDirection;
 };

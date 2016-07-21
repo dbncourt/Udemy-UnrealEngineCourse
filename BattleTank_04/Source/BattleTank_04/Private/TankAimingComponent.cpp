@@ -27,10 +27,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	if (ensure(Barrel) && ensure(Turret))
 	{
-		FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
-		FRotator AimRotation = AimDirection.Rotation();
-		FRotator DeltaRotator = AimRotation - BarrelRotation;
+		FVector BarrelForwardVector = Barrel->GetForwardVector();
+		FQuat RotationWithoutRoll = FQuat::FindBetweenVectors(BarrelForwardVector, AimDirection);
 
+		FRotator DeltaRotator = RotationWithoutRoll.Rotator();
+		
 		Barrel->Elevate(DeltaRotator.Pitch);
 		Turret->Rotate(DeltaRotator.Yaw);
 	}
@@ -40,11 +41,8 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (ensure(Barrel))
 	{
-		FVector CurrentForwardVector = Barrel->GetForwardVector().GetSafeNormal();
-		bool IsVectorEqual = !CurrentForwardVector.Equals(LastForwardVector, 0.0001f);
-		LastForwardVector = CurrentForwardVector;
-
-		return IsVectorEqual;
+		FVector CurrentForwardVector = Barrel->GetForwardVector();
+		return !CurrentForwardVector.Equals(AimDirection, 0.01f);
 	}
 	else
 	{
@@ -76,7 +74,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 		FVector StartLocation = Barrel->GetSocketLocation(FName("Cannon"));
 		if (UGameplayStatics::SuggestProjectileVelocity(GetWorld(), LaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0.0f, 0.0f, ESuggestProjVelocityTraceOption::DoNotTrace))
 		{
-			FVector AimDirection = LaunchVelocity.GetSafeNormal();
+			AimDirection = LaunchVelocity.GetSafeNormal();
 			UTankAimingComponent::MoveBarrelTowards(AimDirection);
 		}
 	}
