@@ -32,7 +32,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 		FQuat RotationWithoutRoll = FQuat::FindBetweenVectors(BarrelForwardVector, AimDirection);
 
 		FRotator DeltaRotator = RotationWithoutRoll.Rotator();
-		if (DeltaRotator.Yaw >= 180)
+		if (FMath::Abs(DeltaRotator.Yaw) >= 180)
 		{
 			DeltaRotator.Yaw = -DeltaRotator.Yaw;
 		}
