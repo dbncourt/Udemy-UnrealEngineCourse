@@ -17,7 +17,7 @@ public:
 	UTankTrack();
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
-		void SetThrottle(float Throttle);
+	void SetThrottle(float Throttle);
 
 private:
 	virtual void BeginPlay() override;
@@ -27,11 +27,11 @@ private:
 	void DriveTrack();
 
 	UFUNCTION()
-		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-		float TrackMaxDrivingForce = 400000.0f;
+	float TrackMaxDrivingForce = 400000.0f;
 
 	float CurrentThrottle;
 };

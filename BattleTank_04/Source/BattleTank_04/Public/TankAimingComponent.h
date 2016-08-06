@@ -60,13 +60,14 @@ private:
 	float LaunchSpeed;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	double ReloadTime;
+	float ReloadTime;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 Ammo;
 
 	double LastFireTime;
 
 	FVector LastForwardVector;
 
 	FVector AimDirection;
-
-	int32 Ammo;
 };

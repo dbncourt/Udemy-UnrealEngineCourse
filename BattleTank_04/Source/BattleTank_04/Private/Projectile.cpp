@@ -15,6 +15,20 @@ AProjectile::AProjectile()
 	{
 		ProjectileMovementComponent->bAutoActivate = false;
 	}
+
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Collision Mesh"));
+	if (ensure(CollisionMesh))
+	{
+		SetRootComponent(CollisionMesh);
+		CollisionMesh->SetNotifyRigidBodyCollision(true);
+		CollisionMesh->SetVisibility(false);
+	}
+
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("LaunchBlast"));
+	if (ensure(LaunchBlast))
+	{
+		LaunchBlast->AttachTo(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned
