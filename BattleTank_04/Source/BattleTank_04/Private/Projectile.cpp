@@ -27,7 +27,8 @@ AProjectile::AProjectile()
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("LaunchBlast"));
 	if (ensure(LaunchBlast))
 	{
-		LaunchBlast->AttachTo(RootComponent);
+		LaunchBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+		LaunchBlast->bAutoActivate = true;
 	}
 }
 
