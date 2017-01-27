@@ -28,10 +28,10 @@ void UTankMovementComponent::TurnRight(float Throw)
 	}
 }
 
-void UTankMovementComponent::Initialize(UTankTrack* RightTrack, UTankTrack* LeftTrack)
+void UTankMovementComponent::Initialize(UTankTrack* NewRightTrack, UTankTrack* NewLeftTrack)
 {
-	this->RightTrack = RightTrack;
-	this->LeftTrack = LeftTrack;
+	this->RightTrack = NewRightTrack;
+	this->LeftTrack = NewLeftTrack;
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
