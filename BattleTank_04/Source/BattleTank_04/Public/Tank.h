@@ -22,10 +22,12 @@ public:
 
 	FTankDelegate OnDeath;
 
+	virtual void BeginPlay() override;
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth;
 
-	UPROPERTY(VisibleAnywhere, Category = "Health")
+	UPROPERTY(VisibleInstanceOnly, Category = "Health")
 	int32 CurrentHealth;
 };

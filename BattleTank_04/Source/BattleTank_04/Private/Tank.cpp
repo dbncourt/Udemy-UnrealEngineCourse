@@ -8,6 +8,11 @@ ATank::ATank()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	StartingHealth = 100;
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
 	CurrentHealth = StartingHealth;
 }
 

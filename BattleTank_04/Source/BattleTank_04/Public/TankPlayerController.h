@@ -25,6 +25,8 @@ private:
 	
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	void AimTowardsCrosshair();
 	
 	bool GetSightRayHitLocation(_Out_ FVector &HitLocation) const;
@@ -41,4 +43,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange;
+
+	UFUNCTION()
+	void OnPossedTankDeath();
 };
