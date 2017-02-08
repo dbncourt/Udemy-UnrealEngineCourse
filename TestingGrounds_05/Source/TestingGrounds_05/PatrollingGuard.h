@@ -17,8 +17,9 @@ public:
 	APatrollingGuard();
 	~APatrollingGuard();
 
-private:
+	TArray<AActor*> const GetPatrollingPoints();
 
-	UPROPERTY(EditInstanceOnly, Category = "Patrolling")
+private:
+	UPROPERTY(EditInstanceOnly, Category = "Patrol Route")
 	TArray<AActor*> PatrollingPoints;
 };

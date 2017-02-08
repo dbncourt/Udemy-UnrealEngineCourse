@@ -12,3 +12,8 @@ APatrollingGuard::~APatrollingGuard()
 {
 
 }
+
+TArray<AActor*> const APatrollingGuard::GetPatrollingPoints()
+{
+	return this->PatrollingPoints;
+}
