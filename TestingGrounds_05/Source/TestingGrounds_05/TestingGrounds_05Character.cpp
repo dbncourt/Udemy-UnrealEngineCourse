@@ -7,6 +7,9 @@
 #include "GameFramework/InputSettings.h"
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "Perception/AISense_Hearing.h"
+
+
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -76,6 +79,11 @@ ATestingGrounds_05Character::ATestingGrounds_05Character()
 	VR_MuzzleLocation->SetRelativeLocation(FVector(0.000004, 53.999992, 10.000000));
 	VR_MuzzleLocation->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));		// Counteract the rotation of the VR gun model.
 
+	JumpSoundAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("JumpSoundAudioComponent"));
+	JumpSoundAudioComponent->bAutoActivate = false;
+	JumpSoundAudioComponent->SetupAttachment(RootComponent);
+	JumpSoundAudioComponent->SetRelativeLocation(GetActorLocation());
+
 	// Uncomment the following line to turn motion controllers on by default:
 	//bUsingMotionControllers = true;
 }
@@ -109,7 +117,7 @@ void ATestingGrounds_05Character::SetupPlayerInputComponent(class UInputComponen
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ATestingGrounds_05Character::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	//InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ATestingGrounds_05Character::TouchStarted);
@@ -130,6 +138,16 @@ void ATestingGrounds_05Character::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("TurnRate", this, &ATestingGrounds_05Character::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ATestingGrounds_05Character::LookUpAtRate);
+}
+
+void ATestingGrounds_05Character::Jump()
+{
+	ACharacter::Jump();
+	if (JumpSoundAudioComponent != NULL)
+	{
+		UAISense_Hearing::ReportNoiseEvent(this->GetWorld(), GetActorLocation(), 1.0f, this);
+		JumpSoundAudioComponent->Play();
+	}
 }
 
 void ATestingGrounds_05Character::OnFire()
