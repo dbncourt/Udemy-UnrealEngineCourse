@@ -17,4 +17,3 @@ TArray<AActor*> const UPatrolRouteComponent::GetPatrollingPoints() const
 {
 	return this->PatrollingPoints;
 }
-

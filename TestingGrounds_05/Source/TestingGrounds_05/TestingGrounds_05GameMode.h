@@ -11,6 +11,3 @@ class ATestingGrounds_05GameMode : public AGameModeBase
 public:
 	ATestingGrounds_05GameMode();
 };
-
-
-

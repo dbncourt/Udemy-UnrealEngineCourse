@@ -4,4 +4,3 @@
 
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, TestingGrounds_05, "TestingGrounds_05" );
- 
