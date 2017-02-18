@@ -143,7 +143,7 @@ void ATestingGrounds_05Character::SetupPlayerInputComponent(class UInputComponen
 void ATestingGrounds_05Character::Jump()
 {
 	ACharacter::Jump();
-	if (JumpSoundAudioComponent != NULL)
+	if (JumpSoundAudioComponent != NULL && !ACharacter::GetCharacterMovement()->IsFalling() )
 	{
 		UAISense_Hearing::ReportNoiseEvent(this->GetWorld(), GetActorLocation(), 1.0f, this);
 		JumpSoundAudioComponent->Play();
