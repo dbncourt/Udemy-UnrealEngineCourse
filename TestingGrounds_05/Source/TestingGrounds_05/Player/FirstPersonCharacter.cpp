@@ -2,7 +2,7 @@
 
 #include "TestingGrounds_05.h"
 #include "FirstPersonCharacter.h"
-#include "TestingGrounds_05Projectile.h"
+#include "../Weapons/FPSWeaponProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
@@ -162,7 +162,7 @@ void AFirstPersonCharacter::OnFire()
 			{
 				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
 				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
-				World->SpawnActor<ATestingGrounds_05Projectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+				World->SpawnActor<AFPSWeaponProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
 			}
 			else
 			{
@@ -175,7 +175,7 @@ void AFirstPersonCharacter::OnFire()
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 				// spawn the projectile at the muzzle
-				World->SpawnActor<ATestingGrounds_05Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+				World->SpawnActor<AFPSWeaponProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
 		}
 	}
