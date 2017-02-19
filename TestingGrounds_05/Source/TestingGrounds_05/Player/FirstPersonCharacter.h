@@ -1,17 +1,17 @@
 // Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
-#include "TestingGrounds_05Character.generated.h"
+#include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
 
-UCLASS(config=Game)
-class ATestingGrounds_05Character : public ACharacter
+UCLASS(config = Game)
+class AFirstPersonCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class USkeletalMeshComponent* Mesh1P;
 
 	/** Gun mesh: 1st person view (seen only by self) */
@@ -46,28 +46,28 @@ class ATestingGrounds_05Character : public ACharacter
 	class UAudioComponent* JumpSoundAudioComponent;
 
 public:
-	ATestingGrounds_05Character();
+	AFirstPersonCharacter();
 
 	virtual void BeginPlay();
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseLookUpRate;
 
 	/** Gun muzzle's offset from the characters location */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector GunOffset;
 
 	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category=Projectile)
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	TSubclassOf<class ATestingGrounds_05Projectile> ProjectileClass;
 
 	/** Sound to play each time we fire */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	class USoundBase* FireSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
@@ -82,7 +82,7 @@ public:
 	uint32 bUsingMotionControllers : 1;
 
 protected:
-	
+
 	/** Fires a projectile. */
 	void OnFire();
 
@@ -96,20 +96,20 @@ protected:
 	void MoveRight(float Val);
 
 	/**
-	 * Called via input to turn at a given rate.
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
+	* Called via input to turn at a given rate.
+	* @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	*/
 	void TurnAtRate(float Rate);
 
 	/**
-	 * Called via input to turn look up/down at a given rate.
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
+	* Called via input to turn look up/down at a given rate.
+	* @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
+	*/
 	void LookUpAtRate(float Rate);
 
 	struct TouchData
 	{
-		TouchData() { bIsPressed = false;Location=FVector::ZeroVector;}
+		TouchData() { bIsPressed = false; Location = FVector::ZeroVector; }
 		bool bIsPressed;
 		ETouchIndex::Type FingerIndex;
 		FVector Location;
@@ -119,7 +119,7 @@ protected:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
-	
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
@@ -127,12 +127,12 @@ protected:
 
 	virtual void Jump() override;
 
-	/* 
-	 * Configures input for touchscreen devices if there is a valid touch interface for doing so 
-	 *
-	 * @param	InputComponent	The input component pointer to bind controls to
-	 * @returns true if touch controls were enabled.
-	 */
+	/*
+	* Configures input for touchscreen devices if there is a valid touch interface for doing so
+	*
+	* @param	InputComponent	The input component pointer to bind controls to
+	* @returns true if touch controls were enabled.
+	*/
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
 
 public:
