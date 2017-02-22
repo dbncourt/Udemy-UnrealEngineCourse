@@ -6,6 +6,7 @@
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "Perception/AISense_Hearing.h"
+#include "../Weapons/Gun.h"
 
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -36,14 +37,6 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	Mesh1P->CastShadow = false;
 	Mesh1P->RelativeRotation = FRotator(1.9f, -19.19f, 5.2f);
 	Mesh1P->RelativeLocation = FVector(-0.5f, -4.4f, -155.7f);
-
-	JumpSoundAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("JumpSoundAudioComponent"));
-	JumpSoundAudioComponent->bAutoActivate = false;
-	JumpSoundAudioComponent->SetupAttachment(RootComponent);
-	JumpSoundAudioComponent->SetRelativeLocation(GetActorLocation());
-
-	// Uncomment the following line to turn motion controllers on by default:
-	//bUsingMotionControllers = true;
 }
 
 void AFirstPersonCharacter::BeginPlay()
@@ -51,10 +44,12 @@ void AFirstPersonCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
-	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	//FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
-
-	Mesh1P->SetHiddenInGame(false, true);
+	if (GunBlueprint)
+	{
+		Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
+		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+		Mesh1P->SetHiddenInGame(false, true);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -85,10 +80,10 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 void AFirstPersonCharacter::Jump()
 {
 	ACharacter::Jump();
-	if (JumpSoundAudioComponent != NULL && !ACharacter::GetCharacterMovement()->IsFalling())
+	if (JumpSound && !ACharacter::GetCharacterMovement()->IsFalling())
 	{
 		UAISense_Hearing::ReportNoiseEvent(this->GetWorld(), GetActorLocation(), 1.0f, this);
-		JumpSoundAudioComponent->Play();
+		UGameplayStatics::PlaySoundAtLocation(this, JumpSound, GetActorLocation());
 	}
 }
 
