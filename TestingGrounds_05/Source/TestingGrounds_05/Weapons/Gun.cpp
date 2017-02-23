@@ -72,3 +72,8 @@ void AGun::OnFire()
 		}
 	}
 }
+
+void AGun::SetAnimInstance(UAnimInstance* RefAnimInstance)
+{
+	this->AnimInstance = RefAnimInstance;
+}

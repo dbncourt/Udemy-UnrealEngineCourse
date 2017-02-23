@@ -38,6 +38,8 @@ public:
 
 	virtual void BeginPlay();
 
+	void OnFire();
+
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/

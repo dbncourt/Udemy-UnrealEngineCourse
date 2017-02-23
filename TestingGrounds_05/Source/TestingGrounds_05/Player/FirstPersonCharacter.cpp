@@ -48,6 +48,7 @@ void AFirstPersonCharacter::BeginPlay()
 	{
 		Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+		Gun->SetAnimInstance(Mesh1P->GetAnimInstance());
 		Mesh1P->SetHiddenInGame(false, true);
 	}
 }
@@ -63,14 +64,11 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::OnFire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::OnFire);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFirstPersonCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFirstPersonCharacter::MoveRight);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFirstPersonCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
@@ -84,6 +82,14 @@ void AFirstPersonCharacter::Jump()
 	{
 		UAISense_Hearing::ReportNoiseEvent(this->GetWorld(), GetActorLocation(), 1.0f, this);
 		UGameplayStatics::PlaySoundAtLocation(this, JumpSound, GetActorLocation());
+	}
+}
+
+void AFirstPersonCharacter::OnFire()
+{
+	if (Gun)
+	{
+		Gun->OnFire();
 	}
 }
 
